@@ -3,269 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>蜂巢·隱曜 | VLink</title>
+    <title>ifanr | Holographic Fragment</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
-        /* 全局重置与变量 */
         :root {
-            --bg-color: #f7f9fc; /* 浅灰背景，保护视力且现代 */
-            --card-bg: #ffffff;
-            --text-primary: #2c3e50;
-            --text-secondary: #95a5a6;
-            --accent-color: #000000;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.08);
-            --radius-card: 16px;
-            --radius-icon: 12px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --neon-cyan: #00f2fe;
+            --neon-purple: #7000ff;
+            --bg-black: #020205;
+            --scan-line: rgba(255, 255, 255, 0.05);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: var(--bg-black);
+            color: #fff;
+            font-family: 'Orbitron', 'PingFang SC', sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
+            justify-content: center;
         }
 
-        /* 容器限制，模拟手机视图 */
-        .container {
+        /* 扫描线背景特效 */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--scan-line) 50%);
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .ambient-light {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .fragment-container {
             width: 100%;
-            max-width: 480px;
-            position: relative;
-        }
-
-        /* --- 头部个人信息区 --- */
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 16px;
-        }
-
-        .avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--card-bg);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .username {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .bio {
-            font-size: 14px;
-            color: var(--text-secondary);
-            padding: 0 20px;
-            font-weight: 400;
-        }
-
-        /* --- 链接列表区 --- */
-        .links-container {
+            max-width: 440px;
+            padding: 60px 20px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
         }
 
-        /* 小标题样式 (Section Header) */
-        .section-header {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 20px 0 5px 10px;
-            opacity: 0.8;
-        }
-
-        /* 链接卡片样式 */
-        .link-card {
+        /* 头部：全息头像 */
+        .profile {
             display: flex;
             align-items: center;
-            background: var(--card-bg);
-            padding: 12px;
-            border-radius: var(--radius-card);
-            text-decoration: none;
-            color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            gap: 20px;
+            margin-bottom: 60px;
+            padding-left: 10px;
+        }
+
+        .avatar-frame {
             position: relative;
-            overflow: hidden;
+            width: 70px; height: 70px;
         }
 
-        /* 鼠标悬停/点击效果 */
-        .link-card:hover, .link-card:active {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .link-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-icon);
+        .avatar-frame img {
+            width: 100%; height: 100%;
+            border-radius: 4px; /* 硬核方角 */
             object-fit: cover;
-            margin-right: 16px;
-            flex-shrink: 0;
-            background-color: #f0f0f0; /* 图片加载前的占位色 */
+            border: 1px solid var(--neon-cyan);
+            filter: contrast(1.2) brightness(1.1);
         }
 
-        .link-text {
-            font-size: 15px;
-            font-weight: 500;
-            flex-grow: 1;
-            padding-right: 10px;
-            /* 文本溢出处理 */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .avatar-frame::before {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            border: 1px solid var(--neon-purple);
+            clip-path: polygon(0 0, 30% 0, 0 30%);
         }
 
-        /* 尾部 */
-        .footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 12px;
-            color: #bdc3c7;
+        .brand-info h1 { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; }
+        .brand-info p { font-size: 12px; color: var(--neon-cyan); opacity: 0.7; }
+
+        /* 非对称碎片链接 */
+        .link-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .footer a {
-            color: inherit;
+        .fragment-item {
+            position: relative;
+            width: 85%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--neon-cyan);
+            display: flex;
+            align-items: center;
             text-decoration: none;
+            color: #fff;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+        }
+
+        /* 奇数行向右偏置 */
+        .fragment-item:nth-child(even) {
+            align-self: flex-end;
+            border-left: none;
+            border-right: 3px solid var(--neon-purple);
+            clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%);
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        .fragment-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            width: 90%;
+            border-color: #fff;
+        }
+
+        .frag-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            margin: 0 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .frag-text {
+            font-size: 14px;
             font-weight: 600;
+            letter-spacing: 1px;
+            padding: 0 10px;
         }
 
-        /* 简单动画 */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* 底部社交：矩阵排版 */
+        .social-matrix {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border: 1px solid var(--border-glass);
+            background: rgba(255,255,255,0.02);
         }
 
-        /* 针对深色模式的微调 (可选) */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #121212;
-                --card-bg: #1e1e1e;
-                --text-primary: #e0e0e0;
-                --text-secondary: #a0a0a0;
-                --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-            }
-            .link-card { border: 1px solid #333; }
+        .matrix-btn {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 20px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .matrix-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+        }
+
+        .glitch-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 9px;
+            color: #444;
+            letter-spacing: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <header class="header">
-            <div class="avatar-wrapper">
-                <img src="https://oss-vlink.linklink.to/avatar/ifanr_1pGBgXMVgI.png?imageView2/1/w/300/h/300" alt="Avatar" class="avatar">
-            </div>
-            <h1 class="username">蜂巢·隱曜</h1>
-            <p class="bio">时间在变，人也在变，不管我们如何努力，回不去就是回不去。</p>
-        </header>
+<div class="ambient-light"></div>
 
-        <main class="links-container">
-            
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_FyulWVNLCi.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">“閒”是生活的標點 · HOME</span>
-            </a>
+<div class="fragment-container">
+    <header class="profile">
+        <div class="avatar-frame">
+            <img src="https://m.ifanr.com/favicon.ico" alt="ifanr">
+        </div>
+        <div class="brand-info">
+            <h1>IFANR.TECH</h1>
+            <p>SYSTEM ACCESS GRANTED</p>
+        </div>
+    </header>
 
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_Zy5wAuMojA.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">ADS攔截規則 · CHINESE</span>
-            </a>
+    <div class="link-grid">
+        <a href="#" class="fragment-item">
+            <img src="https://m.ifanr.com/favicon.ico" class="frag-icon">
+            <span class="frag-text">进入官网 MAIN_NET</span>
+        </a>
 
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_vuw85f2oEb.jpg?v=8" class="link-icon" alt="icon">
-                <span class="link-text">開源服務 · OSS</span>
-            </a>
+        <a href="#" class="fragment-item">
+            <span class="frag-text">数字生活 LIFE_STYLE</span>
+            <img src="https://m.ifanr.com/favicon.ico" class="frag-icon">
+        </a>
 
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_NOqcAdZiNM.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">簡約 · 鏈結縮短服務</span>
-            </a>
+        <a href="#" class="fragment-item">
+            <img src="https://m.ifanr.com/favicon.ico" class="frag-icon">
+            <span class="frag-text">应用方案 APP_SOLUTION</span>
+        </a>
 
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_GHtDNBDQhw.jpg?v=8" class="link-icon" alt="icon">
-                <span class="link-text">GitHub 文件加速 · 公益服務</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">網域 · 訂閱管理系統</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">CloudNotes · 私隱加密筆記</span>
-            </a>
-
-            <div class="section-header">休閒娛樂 · REC</div>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_UxDxdKykko.webp?v=8" class="link-icon" alt="icon">
-                <span class="link-text">走遍中國 · 毛主席足跡地圖</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_jUfPisfHQY.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">Genact · 無意義摸魚</span>
-            </a>
-
-            <div class="section-header">掃碼菜鳥驛站 · CCS</div>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_en0gFQVmIb.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">Blogspot · 部落格</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_hWDDX_R9iJ.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">i計畫通行 · 服務監控</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_gw4j4TbnvO.jpg?v=8" class="link-icon" alt="icon">
-                <span class="link-text">企鵝二維碼 · 羣組討論</span>
-            </a>
-
-            <a href="#" class="link-card" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_5a-qJtzvP-.png?v=8" class="link-icon" alt="icon">
-                <span class="link-text">微信二維碼 · 公眾號</span>
-            </a>
-
-        </main>
-
-        <footer class="footer">
-            <p>VLink.CC/ifanr</p>
-        </footer>
-
+        <a href="#" class="fragment-item">
+            <span class="frag-text">玩物特惠 COOL_STUFF</span>
+            <img src="https://m.ifanr.com/favicon.ico" class="frag-icon">
+        </a>
     </div>
+
+    <footer class="social-matrix">
+        <a href="#" class="matrix-btn"><i class="ri-wechat-fill"></i></a>
+        <a href="#" class="matrix-btn"><i class="ri-mail-line"></i></a>
+        <a href="#" class="matrix-btn"><i class="ri-douyin-fill"></i></a>
+        <a href="#" class="matrix-btn"><i class="ri-qq-fill"></i></a>
+        <a href="#" class="matrix-btn"><i class="ri-telegram-fill"></i></a>
+    </footer>
+
+    <div class="glitch-footer">HOLOGRAPHIC_CORE_V3</div>
+</div>
 
 </body>
 </html>
