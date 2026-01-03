@@ -2,221 +2,269 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>蜂巢·隱曜 | VLink</title>
     <style>
+        /* 全局重置与变量 */
         :root {
-            --bg-color: #f4f6f8;
+            --bg-color: #f7f9fc; /* 浅灰背景，保护视力且现代 */
             --card-bg: #ffffff;
-            --text-main: #333333;
-            --text-sub: #666666;
-            --btn-bg: #ffffff;
-            --btn-hover: #f0f0f0;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            --radius: 12px;
+            --text-primary: #2c3e50;
+            --text-secondary: #95a5a6;
+            --accent-color: #000000;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.08);
+            --radius-card: 16px;
+            --radius-icon: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
+            color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 40px 20px;
         }
 
-        /* Profile Section */
-        .profile {
+        /* 容器限制，模拟手机视图 */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+        }
+
+        /* --- 头部个人信息区 --- */
+        .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 16px;
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: var(--shadow);
-            margin-bottom: 15px;
-            border: 3px solid #fff;
+            border: 4px solid var(--card-bg);
+            box-shadow: var(--shadow-sm);
         }
 
         .username {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            margin: 0 0 10px 0;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .bio {
             font-size: 14px;
-            color: var(--text-sub);
-            margin: 0;
-            line-height: 1.5;
-            padding: 0 10px;
+            color: var(--text-secondary);
+            padding: 0 20px;
+            font-weight: 400;
         }
 
-        /* Links Section */
-        .links {
-            width: 100%;
+        /* --- 链接列表区 --- */
+        .links-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
 
-        .link-item {
-            background-color: var(--btn-bg);
-            border-radius: var(--radius);
-            padding: 15px;
-            text-decoration: none;
-            color: var(--text-main);
+        /* 小标题样式 (Section Header) */
+        .section-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 20px 0 5px 10px;
+            opacity: 0.8;
+        }
+
+        /* 链接卡片样式 */
+        .link-card {
             display: flex;
             align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(0,0,0,0.02);
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: var(--radius-card);
+            text-decoration: none;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
-        .link-item:hover {
-            transform: translateY(-2px);
-            background-color: var(--btn-hover);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        /* 鼠标悬停/点击效果 */
+        .link-card:hover, .link-card:active {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: var(--shadow-hover);
         }
 
         .link-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            margin-right: 15px;
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-icon);
             object-fit: cover;
+            margin-right: 16px;
+            flex-shrink: 0;
+            background-color: #f0f0f0; /* 图片加载前的占位色 */
         }
 
         .link-text {
-            font-weight: 500;
             font-size: 15px;
+            font-weight: 500;
             flex-grow: 1;
+            padding-right: 10px;
+            /* 文本溢出处理 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Section Header */
-        .section-header {
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-sub);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
-            padding-left: 5px;
-        }
-
-        /* Footer */
+        /* 尾部 */
         .footer {
-            margin-top: 40px;
-            font-size: 12px;
-            color: #999;
+            margin-top: 50px;
             text-align: center;
+            font-size: 12px;
+            color: #bdc3c7;
         }
 
         .footer a {
-            color: #999;
+            color: inherit;
             text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* 简单动画 */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 针对深色模式的微调 (可选) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --card-bg: #1e1e1e;
+                --text-primary: #e0e0e0;
+                --text-secondary: #a0a0a0;
+                --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+            .link-card { border: 1px solid #333; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="profile">
-            <img src="https://oss-vlink.linklink.to/avatar/ifanr_1pGBgXMVgI.png?imageView2/1/w/300/h/300" alt="Avatar" class="avatar">
+        
+        <header class="header">
+            <div class="avatar-wrapper">
+                <img src="https://oss-vlink.linklink.to/avatar/ifanr_1pGBgXMVgI.png?imageView2/1/w/300/h/300" alt="Avatar" class="avatar">
+            </div>
             <h1 class="username">蜂巢·隱曜</h1>
             <p class="bio">时间在变，人也在变，不管我们如何努力，回不去就是回不去。</p>
-        </div>
+        </header>
 
-        <div class="links">
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_FyulWVNLCi.png?v=8" alt="icon" class="link-icon">
+        <main class="links-container">
+            
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_FyulWVNLCi.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">“閒”是生活的標點 · HOME</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_Zy5wAuMojA.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_Zy5wAuMojA.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">ADS攔截規則 · CHINESE</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_vuw85f2oEb.jpg?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_vuw85f2oEb.jpg?v=8" class="link-icon" alt="icon">
                 <span class="link-text">開源服務 · OSS</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_NOqcAdZiNM.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_NOqcAdZiNM.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">簡約 · 鏈結縮短服務</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_GHtDNBDQhw.jpg?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_GHtDNBDQhw.jpg?v=8" class="link-icon" alt="icon">
                 <span class="link-text">GitHub 文件加速 · 公益服務</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">網域 · 訂閱管理系統</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_35NxNbIZpL.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">CloudNotes · 私隱加密筆記</span>
             </a>
 
             <div class="section-header">休閒娛樂 · REC</div>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_UxDxdKykko.webp?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_UxDxdKykko.webp?v=8" class="link-icon" alt="icon">
                 <span class="link-text">走遍中國 · 毛主席足跡地圖</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_jUfPisfHQY.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_jUfPisfHQY.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">Genact · 無意義摸魚</span>
             </a>
 
             <div class="section-header">掃碼菜鳥驛站 · CCS</div>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_en0gFQVmIb.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_en0gFQVmIb.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">Blogspot · 部落格</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_hWDDX_R9iJ.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_hWDDX_R9iJ.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">i計畫通行 · 服務監控</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_gw4j4TbnvO.jpg?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_gw4j4TbnvO.jpg?v=8" class="link-icon" alt="icon">
                 <span class="link-text">企鵝二維碼 · 羣組討論</span>
             </a>
 
-            <a href="#" class="link-item" target="_blank">
-                <img src="https://oss-vlink.linklink.to/icon/ifanr_5a-qJtzvP-.png?v=8" alt="icon" class="link-icon">
+            <a href="#" class="link-card" target="_blank">
+                <img src="https://oss-vlink.linklink.to/icon/ifanr_5a-qJtzvP-.png?v=8" class="link-icon" alt="icon">
                 <span class="link-text">微信二維碼 · 公眾號</span>
             </a>
 
-            <div class="footer">
-                <p>vlink.cc/ifanr</p>
-            </div>
-        </div>
+        </main>
+
+        <footer class="footer">
+            <p>VLink.CC/ifanr</p>
+        </footer>
+
     </div>
 
 </body>
