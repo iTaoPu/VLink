@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱范儿 ifanr - 链接导航</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f3f4f6; }
+        .link-card { transition: all 0.2s; }
+        .link-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="text-center mb-8">
+        <img src="https://vlink.cc/uploads/avatar/ifanr.jpg" alt="Logo" class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-white shadow-sm">
+        <h1 class="text-xl font-bold text-gray-800">爱范儿 ifanr</h1>
+        <p class="text-gray-500 text-sm mt-1">连接热爱，品味生活</p>
+    </div>
+
+    <div id="links-container" class="w-full max-w-md space-y-4">
+        <div class="animate-pulse flex flex-col space-y-4">
+            <div class="h-12 bg-gray-200 rounded-lg"></div>
+            <div class="h-12 bg-gray-200 rounded-lg"></div>
+        </div>
+    </div>
+
+    <footer class="mt-12 text-gray-400 text-xs">
+        &copy; 2023 ifanr. Powered by Cloudflare & GitHub.
+    </footer>
+
+    <script>
+        // 指向你的 Cloudflare Worker 地址
+        const WORKER_URL = 'https://your-worker.yourname.workers.dev/api/links';
+
+        async function fetchLinks() {
+            try {
+                const response = await fetch(WORKER_URL);
+                const links = await response.json();
+                const container = document.getElementById('links-container');
+                container.innerHTML = '';
+
+                links.forEach(link => {
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.target = '_blank';
+                    a.className = 'link-card block w-full bg-white p-4 text-center rounded-xl shadow-sm border border-gray-100 text-gray-700 font-medium hover:bg-gray-50';
+                    a.innerText = link.title;
+                    container.appendChild(a);
+                });
+            } catch (err) {
+                console.error("加载失败", err);
+                // 降级处理：手动显示几个备用链接
+            }
+        }
+
+        fetchLinks();
+    </script>
+</body>
+</html>
