@@ -269,7 +269,23 @@
 
         function openModal(s) { const m = document.getElementById('qrModal'); document.getElementById('qrImage').src = s; m.style.display = 'flex'; setTimeout(() => m.classList.add('active'), 10); }
         function closeModal() { const m = document.getElementById('qrModal'); m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }
-        function copyText(t) { navigator.clipboard.writeText(t).then(() => { const s = document.getElementById('toast'); s.classList.add('show'); setTimeout(() => s.classList.remove('show'), 2000); }); }
+function copyText(t) {
+    // 兼容性处理：即使 t 为空，也保证触发提示
+    const textToCopy = t || "© 2026 蜂巢·隱曜"; 
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast();
+    }).catch(() => {
+        // 兜底方案：如果 clipboard API 被拦截（部分移动端浏览器），直接显示提示
+        showToast();
+    });
+
+    function showToast() {
+        const s = document.getElementById('toast');
+        s.classList.add('show');
+        setTimeout(() => s.classList.remove('show'), 2000);
+    }
+}
     </script>
 </body>
 </html>
