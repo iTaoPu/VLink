@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Personal Hub | 蜂巢·隱曜</title>
-    <link href="https://fastly.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
         :root {
@@ -46,7 +46,6 @@
             100% { transform: scale(1.1); opacity: 1; }
         }
 
-        /* 加载占位动画 */
         @keyframes loading-glow {
             0% { background-color: rgba(0, 242, 254, 0.1); }
             100% { background-color: rgba(79, 70, 229, 0.3); }
@@ -62,7 +61,7 @@
         .profile { text-align: center; margin-bottom: 30px; }
         .avatar {
             width: 88px; height: 88px;
-            border-radius: 50%; /* 圆形头像 */
+            border-radius: 50%;
             background: linear-gradient(45deg, var(--accent), #4f46e5);
             padding: 3px;
             display: inline-block;
@@ -75,7 +74,7 @@
         .profile h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
         .profile p { 
             color: var(--text-dim); font-size: 13px; margin-top: 10px; line-height: 1.5; padding: 0 4%; 
-            transition: opacity 0.5s ease; /* 语录切换时的淡入淡出效果 */
+            transition: opacity 0.5s ease;
         }
 
         .section-title {
@@ -122,6 +121,7 @@
                 box-shadow: 0 12px 24px rgba(0, 242, 254, 0.15);
             }
             .card:hover .card-info h3 { color: var(--accent); }
+            .card:hover .more-icon { color: var(--accent); opacity: 1; }
         }
         .card:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.18); }
 
@@ -134,6 +134,14 @@
         .card-info p { 
             font-size: 11px; color: var(--text-dim); margin-top: 4px; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+        }
+
+        /* 新增：右侧三点标识样式 */
+        .more-icon { 
+            font-size: 18px; 
+            color: rgba(255, 255, 255, 0.2); 
+            flex-shrink: 0; 
+            transition: all 0.3s ease;
         }
 
         .social-bar {
@@ -212,10 +220,12 @@
             <a href="https://loong.sspai.net.cn" class="card" rel="noopener noreferrer">
                 <div class="icon">🏠</div>
                 <div class="card-info"><h3>HOME</h3><p>“閒”是生活的標點</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://adrules.sspai.net.cn" class="card" rel="noopener noreferrer">
                 <div class="icon">🛡️</div>
                 <div class="card-info"><h3>ADRULES</h3><p>江湖险恶，不行就澈</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
         </div>
 
@@ -224,18 +234,22 @@
             <a href="https://url.sspai.net.cn" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">🔗</div>
                 <div class="card-info"><h3>簡約 · 鏈結縮短服務</h3><p>简单、安全的链接缩短服务</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://jsdelivr.sspai.net.cn" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">🚀</div>
                 <div class="card-info"><h3>GitHub 加速 · 公益服務</h3><p>稳定快速的 GitHub 文件分发</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://trail.sspai.net.cn" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">🗓️</div>
                 <div class="card-info"><h3>網域 · 訂閱管理系統</h3><p>轻松跟踪各类数字化订阅服务</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://url.sspai.net.cn" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">🔐</div>
                 <div class="card-info"><h3>CloudNotes · 加密筆記</h3><p>端到端加密的数字保险库</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
         </div>
 
@@ -244,10 +258,12 @@
             <a href="https://mmap.sspai.net.cn" class="card" rel="noopener noreferrer">
                 <div class="icon">🗺️</div>
                 <div class="card-info"><h3>教员足跡地圖</h3><p>交互式动态地图</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://loong.sspai.net.cn/genact" class="card" rel="noopener noreferrer">
                 <div class="icon">🐟</div>
                 <div class="card-info"><h3>GENACT</h3><p>沉浸式装逼摸鱼</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
         </div>
 
@@ -256,20 +272,24 @@
             <a href="https://5iclub.blogspot.com" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">📝</div>
                 <div class="card-info"><h3>Blogspot · 部落格</h3><p>沉淀思想，记录不一样的生活</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://status.sspai.net.cn" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">📊</div>
                 <div class="card-info"><h3>蜂巢 · 監控服務</h3><p>实时查看所有服务的运行状态</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             
             <div class="card card-wide card-feature" onclick="openModal('https://fastly.jsdelivr.net/gh/iTaoPu/VLink@List/菜鳥驛站.png')" role="button">
                 <div class="icon">🐧</div>
                 <div class="card-info"><h3>企鵝 · 羣組討論</h3><p>即时通讯讨论群</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </div>
             
             <div class="card card-wide card-feature" onclick="openModal('https://fastly.jsdelivr.net/gh/iTaoPu/VLink@List/言家稗子.png')" role="button">
                 <div class="icon">💬</div>
                 <div class="card-info"><h3>微信 · 公眾號</h3><p>公众平台资讯推送</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </div>
         </div>
 
@@ -278,10 +298,12 @@
             <a href="https://vlink.cc/5iClub" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">💎</div>
                 <div class="card-info"><h3>計劃通行ㅣVLink.CC</h3><p>白嫖如同高山滚石，一旦开始就停不下来</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
             <a href="https://vlink.cc/CNiao" class="card card-wide card-feature" rel="noopener noreferrer">
                 <div class="icon">🌙</div>
                 <div class="card-info"><h3>菜鳥驛站ㅣVLink.CC</h3><p>梦很美也很虚，在挣扎也在逃避，唯独不愿醒来</p></div>
+                <i class="ri-more-2-line more-icon"></i>
             </a>
         </div>
 
@@ -318,10 +340,8 @@
     <div id="toast" class="toast">已成功复制到剪贴板</div>
 
     <script>
-        // 设置年份
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // 随机语录功能
         const quotes = [
             "时间在变，人也在变，不管我们如何努力，回不去就是回不去。",
             "星光不问赶路人，时光不负有心人。",
@@ -334,17 +354,16 @@
 
         function changeQuote() {
             const introEl = document.getElementById('random-intro');
-            introEl.style.opacity = 0; // 淡出
+            if(!introEl) return;
+            introEl.style.opacity = 0;
             setTimeout(() => {
                 const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
                 introEl.textContent = randomQuote;
-                introEl.style.opacity = 1; // 淡入
+                introEl.style.opacity = 1;
             }, 500);
         }
 
-        // 初始化显示
         changeQuote();
-        // 每 60 秒更新一次
         setInterval(changeQuote, 60000);
 
         function openModal(s) {
