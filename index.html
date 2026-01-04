@@ -19,7 +19,7 @@
         * { 
             box-sizing: border-box; 
             margin: 0; padding: 0; 
-            -webkit-tap-highlight-color: transparent; /* 移动端点击无高亮方块 */
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -33,7 +33,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 动态背景 */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -50,42 +49,43 @@
         .main-wrapper {
             width: 100%;
             max-width: 500px;
-            padding: 40px 16px; /* 强制移动端对齐的侧边边距线 */
+            /* 自适应左右边距：屏幕越小边距越窄 */
+            padding: 40px clamp(12px, 4%, 20px);
             padding-bottom: 60px;
         }
 
-        /* 头部 */
-        .profile { text-align: center; margin-bottom: 35px; }
+        .profile { text-align: center; margin-bottom: 30px; }
         .avatar {
-            width: 90px; height: 90px;
-            border-radius: 28px;
+            width: 86px; height: 86px;
+            border-radius: 26px;
             background: linear-gradient(45deg, var(--accent), #4f46e5);
             padding: 3px;
             display: inline-block;
             margin-bottom: 15px;
-            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.25);
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.2);
         }
-        .avatar img { width: 100%; height: 100%; border-radius: 25px; object-fit: cover; }
-        .profile h1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
-        .profile p { color: var(--text-dim); font-size: 13.5px; margin-top: 10px; line-height: 1.6; padding: 0 5%; }
+        .avatar img { width: 100%; height: 100%; border-radius: 23px; object-fit: cover; }
+        .profile h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+        .profile p { color: var(--text-dim); font-size: 13px; margin-top: 10px; line-height: 1.5; padding: 0 4%; }
 
-        /* 分组标题对齐卡片左侧 */
         .section-title {
             font-size: 11px; font-weight: 700;
             color: var(--accent);
             text-transform: uppercase;
-            margin: 30px 0 12px 2px; 
-            letter-spacing: 2px;
-            opacity: 0.9;
+            margin: 28px 0 12px 2px;
+            letter-spacing: 1.5px;
+            opacity: 0.85;
         }
 
-        /* 核心对齐容器：两列 1fr 平分空间 */
+        /* 核心自适应 Grid：解决间隙过大与对齐问题 */
         .grid-container { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 12px; 
+            /* 动态间距：在移动端自动缩小间距，保持紧凑对齐 */
+            gap: clamp(8px, 3vw, 14px); 
             width: 100%;
-            justify-items: stretch;
+            /* 强制子元素（卡片）高度拉伸一致 */
+            align-items: stretch;
         }
 
         .card {
@@ -93,90 +93,77 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 16px;
+            border-radius: 18px;
+            padding: 14px 12px;
             text-decoration: none;
             color: white;
             display: flex;
             flex-direction: row; 
             align-items: center; 
-            gap: 12px; 
-            width: 100%; /* 强制占满格位 */
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            gap: 10px; 
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
             cursor: pointer;
         }
 
-        /* 悬停动画 */
+        /* 悬停与点击反馈 */
         @media (hover: hover) {
             .card:hover {
-                background: rgba(255, 255, 255, 0.22);
-                transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-4px);
                 border-color: var(--accent);
-                box-shadow: 0 15px 30px rgba(0, 242, 254, 0.2);
+                box-shadow: 0 8px 20px rgba(0, 242, 254, 0.15);
             }
-            .card:hover .card-info h3 { color: var(--accent); transition: color 0.3s ease; }
+            .card:hover .card-info h3 { color: var(--accent); }
         }
-
-        /* 移动端点击触感 */
         .card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.15); }
 
-        .card-wide { grid-column: span 2; } /* 强制占满两列，实现左右对齐 */
+        .card-wide { grid-column: span 2; }
         .card-feature { background: var(--feature-grad); }
 
-        .icon { font-size: 24px; flex-shrink: 0; width: 32px; text-align: center; }
-        
+        .icon { font-size: 22px; flex-shrink: 0; width: 28px; text-align: center; }
         .card-info { flex: 1; min-width: 0; }
-        .card-info h3 { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.2; }
+        .card-info h3 { font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.2; }
         .card-info p { 
-            font-size: 12px; 
-            color: var(--text-dim); 
-            margin-top: 3px; 
-            line-height: 1.3; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; /* 文字过长自动省略，保持对齐 */
+            font-size: 11px; color: var(--text-dim); margin-top: 4px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
         }
 
-        /* 社交栏 */
         .social-bar {
-            display: flex; justify-content: center; gap: 30px;
-            margin-top: 50px;
+            display: flex; justify-content: center; gap: clamp(15px, 6vw, 30px);
+            margin-top: 45px;
         }
         .social-item { 
-            color: var(--text-dim); text-decoration: none; font-size: 24px; 
-            width: 45px; height: 45px; border-radius: 50%;
+            color: var(--text-dim); text-decoration: none; font-size: 22px; 
+            width: 44px; height: 44px; border-radius: 50%;
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
-        .social-item:hover { color: var(--accent); transform: translateY(-5px); border-color: var(--accent); }
+        .social-item:hover { color: var(--accent); transform: translateY(-3px); border-color: var(--accent); }
 
-        /* 弹窗 */
+        /* 弹窗系统 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px);
             z-index: 1000; display: none; justify-content: center; align-items: center;
             padding: 20px; opacity: 0; transition: opacity 0.3s;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content {
-            background: rgba(30, 41, 59, 0.95); border: 1px solid var(--glass-border);
+            background: rgba(30, 41, 59, 0.98); border: 1px solid var(--glass-border);
             padding: 20px; border-radius: 24px; text-align: center; width: 100%; max-width: 300px;
-            transform: scale(0.85); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .qr-image { width: 100%; height: auto; border-radius: 12px; background: #fff; }
+        .qr-image { width: 100%; height: auto; border-radius: 14px; background: #fff; }
         .modal-tip { margin-top: 15px; font-size: 12px; color: var(--text-dim); }
 
-        /* 动画 */
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { to { opacity: 0.9; } }
-
-        /* 响应式：针对非常窄的屏幕微调 */
-        @media (max-width: 350px) {
-            .grid-container { gap: 8px; }
-            .card { padding: 12px; gap: 8px; }
-            .icon { font-size: 20px; }
+        /* 适配极窄屏幕 */
+        @media (max-width: 340px) {
+            .grid-container { gap: 6px; }
+            .card { padding: 10px 8px; gap: 6px; border-radius: 14px; }
+            .profile h1 { font-size: 19px; }
         }
     </style>
 </head>
@@ -199,7 +186,7 @@
             </a>
             <a href="https://adrules.sspai.net.cn" class="card">
                 <div class="icon">🛡️</div>
-                <div class="card-info"><h3>ADRULES</h3><p>畅游互联世界</div>
+                <div class="card-info"><h3>ADRULES</h3><p>中文地区广告拦截规则</p></div>
             </a>
         </div>
 
@@ -248,12 +235,12 @@
             
             <div class="card card-wide card-feature" onclick="openModal('https://fastly.jsdelivr.net/gh/iTaoPu/VLink@List/菜鳥驛站.png')">
                 <div class="icon">🐧</div>
-                <div class="card-info"><h3>企鵝 · 羣組討論</h3><p>即时通讯讨论群</p></div>
+                <div class="card-info"><h3>企鵝二維碼 · 羣組討論</h3><p>即时通讯讨论群</p></div>
             </div>
             
             <div class="card card-wide card-feature" onclick="openModal('https://fastly.jsdelivr.net/gh/iTaoPu/VLink@List/言家稗子.png')">
                 <div class="icon">💬</div>
-                <div class="card-info"><h3>微信 · 公眾號</h3><p>公众平台资讯推送</p></div>
+                <div class="card-info"><h3>微信二維碼 · 公眾號</h3><p>公众平台资讯推送</p></div>
             </div>
         </div>
 
@@ -270,10 +257,10 @@
         </div>
 
         <div class="social-bar">
-            <a href="#" class="social-item" title="Weibo"><i class="ri-weibo-fill"></i></a>
-            <a href="#" class="social-item" title="Zhihu"><i class="ri-zhihu-fill"></i></a>
-            <a href="#" class="social-item" title="Github"><i class="ri-github-fill"></i></a>
-            <a href="mailto:ugreen@petalmail.com" class="social-item" title="Email"><i class="ri-mail-send-fill"></i></a>
+            <a href="#" class="social-item"><i class="ri-weibo-fill"></i></a>
+            <a href="#" class="social-item"><i class="ri-zhihu-fill"></i></a>
+            <a href="#" class="social-item"><i class="ri-github-fill"></i></a>
+            <a href="mailto:ugreen@petalmail.com" class="social-item"><i class="ri-mail-send-fill"></i></a>
         </div>
     </div>
 
@@ -285,16 +272,16 @@
     </div>
 
     <script>
-        function openModal(imageSrc) {
-            const modal = document.getElementById('qrModal');
-            document.getElementById('qrImage').src = imageSrc;
-            modal.style.display = 'flex';
-            setTimeout(() => { modal.classList.add('active'); }, 10);
+        function openModal(s) {
+            const m = document.getElementById('qrModal');
+            document.getElementById('qrImage').src = s;
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('active'), 10);
         }
         function closeModal() {
-            const modal = document.getElementById('qrModal');
-            modal.classList.remove('active');
-            setTimeout(() => { modal.style.display = 'none'; }, 300);
+            const m = document.getElementById('qrModal');
+            m.classList.remove('active');
+            setTimeout(() => m.style.display = 'none', 300);
         }
     </script>
 </body>
