@@ -47,7 +47,6 @@
             padding-bottom: 60px;
         }
 
-        /* Profile Section */
         .profile { text-align: center; margin-bottom: 30px; }
         .avatar {
             width: 88px; height: 88px;
@@ -153,6 +152,7 @@
             <p id="random-intro">一言加载中...</p>
         </header>
 
+        <!-- ================= 十二時辰 · CST ================= -->
         <div class="section-title">十二時辰 · CST</div>
         <div class="grid-container">
             <a href="https://loong.sspai.net.cn/time.html" class="card card-wide card-feature">
@@ -161,6 +161,7 @@
             </a>
         </div>
 
+        <!-- ================= 主要陣地 · PTN ================= -->
         <div class="section-title">主要陣地 · PTN</div>
         <div class="grid-container">
             <a href="https://loong.sspai.net.cn" class="card">
@@ -173,6 +174,7 @@
             </a>
         </div>
 
+        <!-- ================= 開源服務 · OSS ================= -->
         <div class="section-title">開源服務 · OSS</div>
         <div class="grid-container">
             <a href="https://chat.sspai.net.cn" class="card card-wide card-feature">
@@ -197,6 +199,7 @@
             </a>
         </div>
 
+        <!-- ================= 休閒娛樂 · REC ================= -->
         <div class="section-title">休閒娛樂 · REC</div>
         <div class="grid-container">
             <a href="https://mmap.sspai.net.cn" class="card">
@@ -209,6 +212,7 @@
             </a>
         </div>
 
+        <!-- ================= 計劃通行 · SCH ================= -->
         <div class="section-title">計劃通行 · SCH</div>
         <div class="grid-container">
             <a href="https://5iclub.blogspot.com" class="card card-wide card-feature">
@@ -239,10 +243,8 @@
                 <div class="icon">⚒️</div>
                 <div class="card-info"><h3>Cloudflare · 請求量統計</h3><p>优雅、现代的 Cloudflare 请求量监控系统</p></div>
             </a>
-        </div>
-
+         <!-- 分隔线 -->
             <div style="grid-column: span 2; width: 60%; justify-self: center; border-top: 1px dashed var(--text-dim); margin: 15px 0; opacity: 0.4;"></div>
-
             <div class="card" onclick="openModal('https://cdn.jsdmirror.com/gh/iTaoPu/VLink.cc@List/images/菜鳥驛站.png')">
                 <div class="icon">🐘</div>
                 <div class="card-info"><h3>企鵝 · 羣組討論</h3><p>即时通讯讨论群</p></div>
@@ -253,6 +255,7 @@
             </div>
         </div>
 
+        <!-- ================= LeWan · VLink.CC ================= -->
         <div class="section-title">𝙇𝙚𝙒𝙖𝙣 · VLink.CC</div>
         <div class="grid-container">
             <a href="https://vlink.cc/5iClub" class="card card-wide card-feature">
@@ -265,6 +268,7 @@
             </a>
         </div>
 
+        <!-- ================= 社交栏 ================= -->
         <div class="social-bar">
             <a href="javascript:void(0)" class="social-item" onclick="copyText()"><i class="ri-qq-fill"></i></a>
             <a href="javascript:void(0)" class="social-item" onclick="copyText()"><i class="ri-wechat-fill"></i></a>
@@ -276,6 +280,7 @@
         <div class="copyright">&copy; 2022-<span id="current-year"></span> 蜂巢·隱曜</div>
     </div>
 
+    <!-- ================= 弹窗 ================= -->
     <div class="modal-overlay" id="qrModal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <img src="" alt="QR" class="qr-image" id="qrImage">
